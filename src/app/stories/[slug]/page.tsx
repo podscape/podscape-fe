@@ -75,23 +75,31 @@ interface Props {
     }
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
     return Object.keys(STORIES_DATA).map((slug) => ({
         slug,
     }));
 }
 
-export function generateMetadata({ params }: Props) {
-    const story = STORIES_DATA[params.slug as keyof typeof STORIES_DATA];
+export async function generateMetadata({ params }: Props) {
+    const slug = params.slug as keyof typeof STORIES_DATA;
+    const story = STORIES_DATA[slug];
+
+    if (!story) {
+        return {
+            title: 'Story Not Found',
+        };
+    }
 
     return {
-        title: story?.title ?? 'Story Not Found',
-        description: story?.description,
+        title: story.title,
+        description: story.description,
     };
 }
 
-export default function StoryPage({ params }: Props) {
-    const story = STORIES_DATA[params.slug as keyof typeof STORIES_DATA];
+export default async function StoryPage({ params }: Props) {
+    const slug = params.slug as keyof typeof STORIES_DATA;
+    const story = STORIES_DATA[slug];
 
     if (!story) {
         notFound();
