@@ -137,3 +137,81 @@ body {
 .playing {
   @apply bg-[rgba(255,45,85,0.1)] rounded-lg -mx-6 px-6;
 }
+
+/* Spinner Animations */
+@keyframes neonSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes neonSpinReverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes waveform {
+  0%, 100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes hexRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hexDash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Tailwind Utilities */
+@layer utilities {
+  .animate-neon-spin {
+    animation: neonSpin 2s linear infinite;
+  }
+
+  .animate-neon-spin-reverse {
+    animation: neonSpinReverse 2s linear infinite;
+  }
+
+  .animate-waveform {
+    animation: waveform 1s ease-in-out infinite;
+  }
+
+  .animate-hex-rotate {
+    animation: hexRotate 3s linear infinite;
+  }
+
+  .animate-hex-dash {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    animation: hexDash 3s linear infinite;
+  }
+}
+
+/* Loading overlay */
+.loading-overlay {
+  @apply fixed inset-0 bg-[rgba(13,8,32,0.9)] backdrop-blur-md flex items-center justify-center z-50;
+}
+
+/* Spinner container */
+.spinner-container {
+  @apply flex flex-col items-center gap-4;
+}

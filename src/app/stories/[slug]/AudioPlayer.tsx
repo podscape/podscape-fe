@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { WaveformSpinner } from '../../components/LoadingSpinner';
 
 type Segment = {
     readonly speaker: string;
@@ -17,6 +18,7 @@ export default function AudioPlayer({ content }: AudioPlayerProps) {
     const [currentWord, setCurrentWord] = useState(0);
     const speechSynthRef = useRef<SpeechSynthesisUtterance | null>(null);
     const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+    const lastWordRef = useRef({ segment: 0, word: 0 });
 
     useEffect(() => {
         // Initialize speech synthesis
@@ -24,6 +26,16 @@ export default function AudioPlayer({ content }: AudioPlayerProps) {
             speechSynthRef.current = new SpeechSynthesisUtterance();
             speechSynthRef.current.rate = 1;
             speechSynthRef.current.pitch = 1;
+
+            // Handle speech end event
+            speechSynthRef.current.onend = () => {
+                if (isPlaying && currentSegment < content.length - 1) {
+                    // Move to next segment
+                    setCurrentWord(0);
+                    setCurrentSegment(prev => prev + 1);
+                    speakSegment(currentSegment + 1);
+                }
+            };
         }
 
         return () => {
@@ -33,17 +45,22 @@ export default function AudioPlayer({ content }: AudioPlayerProps) {
         };
     }, []);
 
+    const speakSegment = (segmentIndex: number) => {
+        if (speechSynthRef.current && segmentIndex < content.length) {
+            speechSynthRef.current.text = content[segmentIndex].text;
+            window.speechSynthesis.speak(speechSynthRef.current);
+        }
+    };
+
     // Handle word-by-word playback and text-to-speech
     useEffect(() => {
         if (isPlaying && currentSegment < content.length) {
             const words = content[currentSegment].text.split(' ');
 
-            if (currentWord === 0) {
+            if (currentWord === 0 && lastWordRef.current.segment !== currentSegment) {
                 // Start speaking the current segment
-                if (speechSynthRef.current) {
-                    speechSynthRef.current.text = content[currentSegment].text;
-                    window.speechSynthesis.speak(speechSynthRef.current);
-                }
+                speakSegment(currentSegment);
+                lastWordRef.current.segment = currentSegment;
             }
 
             if (currentWord < words.length) {
@@ -63,11 +80,19 @@ export default function AudioPlayer({ content }: AudioPlayerProps) {
                 // Move to next word after delay
                 timeoutRef.current = setTimeout(() => {
                     setCurrentWord(prev => prev + 1);
+                    lastWordRef.current.word = currentWord + 1;
                 }, 300); // Adjust timing as needed
             } else {
-                // Move to next segment
-                setCurrentWord(0);
-                setCurrentSegment(prev => prev + 1);
+                if (currentSegment < content.length - 1) {
+                    // Move to next segment
+                    setCurrentWord(0);
+                    setCurrentSegment(prev => prev + 1);
+                } else {
+                    // End of content
+                    setIsPlaying(false);
+                    setCurrentWord(0);
+                    setCurrentSegment(0);
+                }
             }
         }
 
@@ -81,6 +106,8 @@ export default function AudioPlayer({ content }: AudioPlayerProps) {
     const togglePlayback = () => {
         if (!isPlaying) {
             setIsPlaying(true);
+            // Resume from last position
+            speakSegment(currentSegment);
         } else {
             setIsPlaying(false);
             window.speechSynthesis.cancel();
@@ -125,8 +152,11 @@ export default function AudioPlayer({ content }: AudioPlayerProps) {
                     )}
                 </button>
 
-                <div className="text-zinc-400">
-                    {getProgress()}% Complete
+                <div className="flex items-center gap-4">
+                    {isPlaying && <WaveformSpinner />}
+                    <div className="text-zinc-400">
+                        {getProgress()}% Complete
+                    </div>
                 </div>
             </div>
 
