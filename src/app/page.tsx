@@ -7,21 +7,21 @@ const PODCAST_STORIES = [
         title: "The Future of Web3",
         description: "Exploring the decentralized future and how blockchain is reshaping our digital interactions.",
         slug: "future-of-web3",
-        imageUrl: "/api/placeholder/800/600"
+        imageUrl: "/podcast-web3.svg"  // Updated path
     },
     {
         id: 2,
         title: "Solana Development Journey",
         description: "A deep dive into building on Solana and the challenges faced by modern blockchain developers.",
         slug: "solana-development",
-        imageUrl: "/api/placeholder/800/600"
+        imageUrl: "/podcast-solana.svg"  // Updated path
     },
     {
         id: 3,
         title: "NFT Revolution",
         description: "Understanding the impact of NFTs on digital ownership and the creator economy.",
         slug: "nft-revolution",
-        imageUrl: "/api/placeholder/800/600"
+        imageUrl: "/podcast-nft.svg"  // Updated path
     }
 ] as const;
 

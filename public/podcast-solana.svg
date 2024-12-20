@@ -1,0 +1,32 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background -->
+    <defs>
+        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#14F195;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#9945FF;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="800" height="600" fill="url(#grad2)"/>
+
+    <!-- Circuit Pattern -->
+    <g opacity="0.2">
+        <path d="M100 300 H700" stroke="white" stroke-width="2"/>
+        <path d="M200 200 V400" stroke="white" stroke-width="2"/>
+        <path d="M400 200 V400" stroke="white" stroke-width="2"/>
+        <path d="M600 200 V400" stroke="white" stroke-width="2"/>
+        <circle cx="200" cy="300" r="10" fill="white"/>
+        <circle cx="400" cy="300" r="10" fill="white"/>
+        <circle cx="600" cy="300" r="10" fill="white"/>
+    </g>
+
+    <!-- Solana-inspired Logo -->
+    <g transform="translate(320,220) scale(0.8)">
+        <path d="M20 40 H180 L200 80 H40 Z" fill="white" opacity="0.9"/>
+        <path d="M20 120 H180 L200 160 H40 Z" fill="white" opacity="0.9"/>
+        <path d="M20 200 H180 L200 240 H40 Z" fill="white" opacity="0.9"/>
+    </g>
+
+    <!-- Decorative Elements -->
+    <circle cx="400" cy="300" r="250" fill="none" stroke="white" stroke-width="2" opacity="0.1"/>
+    <circle cx="400" cy="300" r="200" fill="none" stroke="white" stroke-width="2" opacity="0.1"/>
+</svg>
