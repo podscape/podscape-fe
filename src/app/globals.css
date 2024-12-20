@@ -215,3 +215,16 @@ body {
 .spinner-container {
   @apply flex flex-col items-center gap-4;
 }
+
+/* Add this to your globals.css */
+.nextjs-toast-errors-parent {
+  display: none !important;
+}
+
+.nextjs-toast-errors-parent > div {
+  display: none !important;
+}
+
+nextjs-portal {
+  display: none !important;
+}
