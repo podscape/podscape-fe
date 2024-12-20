@@ -3,72 +3,106 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0614;
+  --foreground: #e2e8f0;
+  --neon-pink: #ff2d55;
+  --neon-blue: #0ff;
+  --neon-purple: #b829dd;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0a0614;
+    --foreground: #e2e8f0;
   }
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
+  background-image:
+          radial-gradient(circle at 50% 50%, rgba(24, 6, 60, 0.8) 0%, transparent 100%),
+          linear-gradient(180deg, rgba(17, 6, 34, 0.9) 0%, rgba(10, 6, 20, 0.9) 100%);
   font-family: Arial, Helvetica, sans-serif;
 }
-/* Add to your globals.css */
+
+/* Neon text effect */
+.neon-text {
+  text-shadow:
+          0 0 5px rgba(255, 45, 85, 0.5),
+          0 0 10px rgba(255, 45, 85, 0.3),
+          0 0 15px rgba(255, 45, 85, 0.1);
+}
+
+/* Card hover effects */
+.cyberpunk-card {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(13, 8, 32, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.cyberpunk-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon-pink), transparent);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.cyberpunk-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* Existing wallet styles with cyberpunk theme */
 .wallet-adapter-button {
-  background-color: theme('colors.purple.500') !important;
-  border-radius: 9999px !important;
+  background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink)) !important;
+  border-radius: 4px !important;
   height: 40px !important;
-  padding: 0 1rem !important;
+  padding: 0 1.5rem !important;
   font-size: 0.875rem !important;
   font-weight: 500 !important;
-  transition: background-color 0.2s !important;
+  transition: all 0.2s !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5) !important;
 }
 
 .wallet-adapter-button:not([disabled]):hover {
-  background-color: theme('colors.purple.600') !important;
+  background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)) !important;
+  box-shadow: 0 0 15px rgba(184, 41, 221, 0.5) !important;
 }
 
-.wallet-adapter-button:disabled {
-  background-color: theme('colors.gray.400') !important;
-  cursor: not-allowed !important;
-}
-
-/* Wallet Modal Styling */
+/* Modal styling */
 .wallet-adapter-modal-wrapper {
-  background-color: rgb(255, 255, 255) !important;
+  background: rgba(13, 8, 32, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 .dark .wallet-adapter-modal-wrapper {
-  background-color: rgb(39, 39, 42) !important;
-}
-
-.wallet-adapter-modal-button-close {
-  background-color: rgb(39, 39, 42) !important;
-}
-
-.dark .wallet-adapter-modal-button-close {
-  background-color: rgb(63, 63, 70) !important;
+  background: rgba(13, 8, 32, 0.95) !important;
 }
 
 .wallet-adapter-modal-title {
-  color: rgb(23, 23, 23) !important;
+  color: var(--foreground) !important;
 }
 
 .dark .wallet-adapter-modal-title {
-  color: rgb(250, 250, 250) !important;
+  color: var(--foreground) !important;
 }
 
-.wallet-adapter-modal-list .wallet-adapter-button {
-  background-color: transparent !important;
-  color: rgb(23, 23, 23) !important;
+[data-timestamp] {
+  transition: all 0.3s ease;
 }
 
-.dark .wallet-adapter-modal-list .wallet-adapter-button {
-  color: rgb(250, 250, 250) !important;
+[data-timestamp].playing {
+  background: rgba(255, 45, 85, 0.1);
+  border-left: 2px solid #ff2d55;
+  padding-left: 1rem;
+  margin-left: -1rem;
+  border-radius: 4px;
 }
