@@ -1,18 +1,24 @@
 'use client';
 
 import { FC, useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useConnection } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
-const WalletConnectContent: FC = () => {
+const WalletConnect: FC = () => {
     const { publicKey } = useWallet();
     const { connection } = useConnection();
     const [balance, setBalance] = useState<number | null>(null);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) return;
+
         let isMounted = true;
 
         const fetchBalance = async () => {
@@ -43,7 +49,9 @@ const WalletConnectContent: FC = () => {
             isMounted = false;
             clearInterval(intervalId);
         };
-    }, [publicKey, connection]);
+    }, [publicKey, connection, mounted]);
+
+    if (!mounted) return null;
 
     return (
         <div className="flex items-center gap-4">
@@ -64,13 +72,5 @@ const WalletConnectContent: FC = () => {
         </div>
     );
 };
-
-// Dynamically load the wallet component to prevent SSR issues
-const WalletConnect = dynamic(
-    () => Promise.resolve(WalletConnectContent),
-    {
-        ssr: false,
-    }
-);
 
 export default WalletConnect;
