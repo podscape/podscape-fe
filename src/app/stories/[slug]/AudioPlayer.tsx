@@ -14,35 +14,61 @@ interface AudioPlayerProps {
 export default function AudioPlayer({ content }: AudioPlayerProps) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentSegment, setCurrentSegment] = useState(0);
+    const [currentWord, setCurrentWord] = useState(0);
+    const speechSynthRef = useRef<SpeechSynthesisUtterance | null>(null);
     const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
-    // Simulate audio playback with text highlighting
     useEffect(() => {
-        if (isPlaying) {
-            if (currentSegment >= content.length) {
-                setIsPlaying(false);
-                setCurrentSegment(0);
-                return;
+        // Initialize speech synthesis
+        if (typeof window !== 'undefined') {
+            speechSynthRef.current = new SpeechSynthesisUtterance();
+            speechSynthRef.current.rate = 1;
+            speechSynthRef.current.pitch = 1;
+        }
+
+        return () => {
+            if (speechSynthRef.current) {
+                window.speechSynthesis.cancel();
+            }
+        };
+    }, []);
+
+    // Handle word-by-word playback and text-to-speech
+    useEffect(() => {
+        if (isPlaying && currentSegment < content.length) {
+            const words = content[currentSegment].text.split(' ');
+
+            if (currentWord === 0) {
+                // Start speaking the current segment
+                if (speechSynthRef.current) {
+                    speechSynthRef.current.text = content[currentSegment].text;
+                    window.speechSynthesis.speak(speechSynthRef.current);
+                }
             }
 
-            // Scroll to current segment
-            const element = document.querySelector(`[data-timestamp="${currentSegment}"]`);
-            element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (currentWord < words.length) {
+                // Highlight current word
+                const element = document.querySelector(`[data-segment="${currentSegment}"]`);
+                if (element) {
+                    const wordElements = element.querySelectorAll('.word');
+                    wordElements.forEach((el, idx) => {
+                        if (idx === currentWord) {
+                            el.classList.add('playing');
+                        } else {
+                            el.classList.remove('playing');
+                        }
+                    });
+                }
 
-            // Highlight current segment
-            const segments = document.querySelectorAll('[data-timestamp]');
-            segments.forEach((seg) => {
-                seg.classList.remove('playing');
-            });
-            element?.classList.add('playing');
-
-            // Move to next segment after delay (simulating audio playback)
-            const wordCount = content[currentSegment].text.split(' ').length;
-            const readingTime = wordCount * 300; // 300ms per word
-
-            timeoutRef.current = setTimeout(() => {
+                // Move to next word after delay
+                timeoutRef.current = setTimeout(() => {
+                    setCurrentWord(prev => prev + 1);
+                }, 300); // Adjust timing as needed
+            } else {
+                // Move to next segment
+                setCurrentWord(0);
                 setCurrentSegment(prev => prev + 1);
-            }, readingTime);
+            }
         }
 
         return () => {
@@ -50,10 +76,29 @@ export default function AudioPlayer({ content }: AudioPlayerProps) {
                 clearTimeout(timeoutRef.current);
             }
         };
-    }, [isPlaying, currentSegment, content]);
+    }, [isPlaying, currentSegment, currentWord, content]);
 
     const togglePlayback = () => {
-        setIsPlaying(!isPlaying);
+        if (!isPlaying) {
+            setIsPlaying(true);
+        } else {
+            setIsPlaying(false);
+            window.speechSynthesis.cancel();
+        }
+    };
+
+    const getProgress = () => {
+        if (currentSegment >= content.length) return 100;
+
+        const totalWords = content.reduce((acc, segment) =>
+            acc + segment.text.split(' ').length, 0);
+
+        const wordsCompleted = content
+            .slice(0, currentSegment)
+            .reduce((acc, segment) =>
+                acc + segment.text.split(' ').length, 0) + currentWord;
+
+        return Math.floor((wordsCompleted / totalWords) * 100);
     };
 
     return (
@@ -81,15 +126,14 @@ export default function AudioPlayer({ content }: AudioPlayerProps) {
                 </button>
 
                 <div className="text-zinc-400">
-                    {Math.floor(currentSegment / content.length * 100)}% Complete
+                    {getProgress()}% Complete
                 </div>
             </div>
 
-            {/* Progress bar */}
             <div className="mt-4 h-1 bg-[rgba(255,255,255,0.1)] rounded-full overflow-hidden">
                 <div
                     className="h-full bg-gradient-to-r from-[#ff2d55] to-[#b829dd] transition-all duration-300"
-                    style={{ width: `${(currentSegment / content.length) * 100}%` }}
+                    style={{ width: `${getProgress()}%` }}
                 />
             </div>
         </div>

@@ -106,3 +106,34 @@ body {
   margin-left: -1rem;
   border-radius: 4px;
 }
+
+/* Add to your existing globals.css */
+
+.synth-glitch {
+  transition: transform 0.1s ease-out;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.playing {
+  @apply bg-[rgba(255,45,85,0.1)] rounded-lg -mx-6 px-6;
+}

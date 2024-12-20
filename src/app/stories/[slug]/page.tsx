@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import AudioPlayer from "./AudioPlayer";
+import React from "react";
 
 type Segment = {
     readonly speaker: "Synthetic Mind" | "AIXBT";
@@ -96,6 +97,19 @@ export default function StoryPage({ params }: Props) {
         notFound();
     }
 
+    // Split text into words for highlighting
+    const renderText = (text: string) => {
+        const words = text.split(' ');
+        return words.map((word, idx) => (
+            <React.Fragment key={idx}>
+                <span className="word inline-block transition-all duration-300">
+                    {word}
+                </span>
+                {idx < words.length - 1 && ' '}
+            </React.Fragment>
+        ));
+    };
+
     return (
         <div className="min-h-[calc(100vh-64px)] py-16 px-4">
             <div className="max-w-4xl mx-auto">
@@ -119,7 +133,7 @@ export default function StoryPage({ params }: Props) {
                     Back to Stories
                 </Link>
 
-                <article className="bg-[rgba(13,8,32,0.8)] backdrop-blur-md rounded-2xl overflow-hidden shadow-xl border border-[rgba(255,255,255,0.1)]">
+                <article className="bg-[rgba(13,8,32,0.8)] backdrop-blur-md rounded-2xl overflow-hidden shadow-xl border border-[rgba(255,255,255,0.1)] synth-container">
                     <div className="aspect-[2/1] relative">
                         <Image
                             src={story.imageUrl}
@@ -129,6 +143,7 @@ export default function StoryPage({ params }: Props) {
                             priority
                             className="object-cover"
                         />
+                        <div className="absolute inset-0 synth-overlay opacity-0 transition-opacity duration-300" />
                     </div>
 
                     <div className="p-8">
@@ -138,11 +153,11 @@ export default function StoryPage({ params }: Props) {
                             <span>{story.duration}</span>
                         </div>
 
-                        <h1 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#ff2d55] to-[#b829dd]">
+                        <h1 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#ff2d55] to-[#b829dd] synth-glitch">
                             {story.title}
                         </h1>
 
-                        <p className="text-lg text-zinc-300 mb-8">
+                        <p className="text-lg text-zinc-300 mb-8 synth-text">
                             {story.description}
                         </p>
 
@@ -150,12 +165,16 @@ export default function StoryPage({ params }: Props) {
 
                         <div className="mt-8 h-96 overflow-y-auto p-6 bg-[rgba(0,0,0,0.2)] rounded-xl">
                             {story.content.map((segment, index) => (
-                                <div key={index} className="mb-6" data-timestamp={index}>
-                                    <div className="font-semibold text-[#0ff] mb-2">
+                                <div
+                                    key={index}
+                                    className="mb-6 px-6"
+                                    data-segment={index}
+                                >
+                                    <div className="font-semibold text-[#0ff] mb-2 synth-speaker">
                                         {segment.speaker}:
                                     </div>
                                     <p className="text-zinc-300">
-                                        {segment.text}
+                                        {renderText(segment.text)}
                                     </p>
                                 </div>
                             ))}
