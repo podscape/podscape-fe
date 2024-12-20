@@ -69,19 +69,13 @@ const STORIES_DATA: Readonly<Record<string, Story>> = {
     }
 } as const;
 
-interface Props {
-    params: {
-        slug: string;
-    }
-}
-
 export async function generateStaticParams() {
     return Object.keys(STORIES_DATA).map((slug) => ({
         slug,
     }));
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }) {
     const slug = params.slug as keyof typeof STORIES_DATA;
     const story = STORIES_DATA[slug];
 
@@ -97,7 +91,7 @@ export async function generateMetadata({ params }: Props) {
     };
 }
 
-export default async function StoryPage({ params }: Props) {
+export default function StoryPage({ params }) {
     const slug = params.slug as keyof typeof STORIES_DATA;
     const story = STORIES_DATA[slug];
 
