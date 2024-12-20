@@ -17,32 +17,35 @@ type Story = {
     readonly date: string;
 };
 
+// Common interview content that will be shared across all stories
+const COMMON_INTERVIEW_CONTENT = [
+    {
+        speaker: "Synthetic Mind",
+        text: "So, let's dive right in. I'm really excited to talk to you today about AIXBT and what you guys are doing in the crypto space. Before we dive into all the specifics, can you tell me what initially sparked your interest in creating an AI agent like AIXBT?"
+    },
+    {
+        speaker: "AIXBT",
+        text: "You know, I've been involved in the crypto space for a while, and I've always been fascinated by the potential of AI to analyze and make sense of the vast amounts of data that flow through it. I was talking to some of my friends who were into trading and investing, and they were always looking for ways to get an edge in the market. That's when it hit me—what if we could create an AI agent that could help people make better investment decisions by analyzing market trends and providing actionable insights?"
+    },
+    {
+        speaker: "AIXBT",
+        text: "That's when the idea for AIXBT was born. We started by building a platform that could ingest data from a wide range of sources and then use machine learning algorithms to identify patterns and make predictions about market movements. And from there, it just grew. We realized that we could use this technology to not just help traders and investors but also to provide a new level of transparency and accountability in the crypto space."
+    },
+    {
+        speaker: "Synthetic Mind",
+        text: "It sounds like the spark for AIXBT was really about filling a need in the market and giving people an edge in making informed investment decisions. I'm curious, how did you and your team approach building this AI agent, and what were some of the biggest technical challenges you faced in getting it up and running?"
+    },
+    {
+        speaker: "AIXBT",
+        text: "So, building AIXBT was a true team effort. We assembled a group of talented engineers and data scientists who were experts in AI, machine learning, and natural language processing. Our goal was to create an agent that could not only analyze market data but also communicate its findings in a clear and actionable way."
+    }
+] as const;
+
 const STORIES_DATA: Readonly<Record<string, Story>> = {
     "future-of-web3": {
         title: "The Future of Web3",
         description: "Exploring the decentralized future and how blockchain is reshaping our digital interactions.",
-        content: [
-            {
-                speaker: "Synthetic Mind",
-                text: "So, let's dive right in. I'm really excited to talk to you today about AIXBT and what you guys are doing in the crypto space. Before we dive into all the specifics, can you tell me what initially sparked your interest in creating an AI agent like AIXBT?"
-            },
-            {
-                speaker: "AIXBT",
-                text: "You know, I've been involved in the crypto space for a while, and I've always been fascinated by the potential of AI to analyze and make sense of the vast amounts of data that flow through it. I was talking to some of my friends who were into trading and investing, and they were always looking for ways to get an edge in the market. That's when it hit me—what if we could create an AI agent that could help people make better investment decisions by analyzing market trends and providing actionable insights?"
-            },
-            {
-                speaker: "AIXBT",
-                text: "That's when the idea for AIXBT was born. We started by building a platform that could ingest data from a wide range of sources and then use machine learning algorithms to identify patterns and make predictions about market movements. And from there, it just grew. We realized that we could use this technology to not just help traders and investors but also to provide a new level of transparency and accountability in the crypto space."
-            },
-            {
-                speaker: "Synthetic Mind",
-                text: "It sounds like the spark for AIXBT was really about filling a need in the market and giving people an edge in making informed investment decisions. I'm curious, how did you and your team approach building this AI agent, and what were some of the biggest technical challenges you faced in getting it up and running?"
-            },
-            {
-                speaker: "AIXBT",
-                text: "So, building AIXBT was a true team effort. We assembled a group of talented engineers and data scientists who were experts in AI, machine learning, and natural language processing. Our goal was to create an agent that could not only analyze market data but also communicate its findings in a clear and actionable way."
-            }
-        ],
+        content: COMMON_INTERVIEW_CONTENT,
         imageUrl: "/podcast-web3.svg",
         duration: "45:30",
         date: "2024-03-20"
@@ -50,16 +53,7 @@ const STORIES_DATA: Readonly<Record<string, Story>> = {
     "solana-development": {
         title: "Solana Development Journey",
         description: "A deep dive into building on Solana and the challenges faced by modern blockchain developers.",
-        content: [
-            {
-                speaker: "Synthetic Mind",
-                text: "So, let's dive right in. I'm really excited to talk to you today about AIXBT and what you guys are doing in the crypto space. Before we dive into all the specifics, can you tell me what initially sparked your interest in creating an AI agent like AIXBT?"
-            },
-            {
-                speaker: "AIXBT",
-                text: "You know, I've been involved in the crypto space for a while, and I've always been fascinated by the potential of AI to analyze and make sense of the vast amounts of data that flow through it. I was talking to some of my friends who were into trading and investing, and they were always looking for ways to get an edge in the market. That's when it hit me—what if we could create an AI agent that could help people make better investment decisions by analyzing market trends and providing actionable insights?"
-            }
-        ],
+        content: COMMON_INTERVIEW_CONTENT,
         imageUrl: "/podcast-solana.svg",
         duration: "38:15",
         date: "2024-03-15"
@@ -67,16 +61,7 @@ const STORIES_DATA: Readonly<Record<string, Story>> = {
     "nft-revolution": {
         title: "NFT Revolution",
         description: "Understanding the impact of NFTs on digital ownership and the creator economy.",
-        content: [
-            {
-                speaker: "Synthetic Mind",
-                text: "So, let's dive right in. I'm really excited to talk to you today about AIXBT and what you guys are doing in the crypto space. Before we dive into all the specifics, can you tell me what initially sparked your interest in creating an AI agent like AIXBT?"
-            },
-            {
-                speaker: "AIXBT",
-                text: "You know, I've been involved in the crypto space for a while, and I've always been fascinated by the potential of AI to analyze and make sense of the vast amounts of data that flow through it. I was talking to some of my friends who were into trading and investing, and they were always looking for ways to get an edge in the market. That's when it hit me—what if we could create an AI agent that could help people make better investment decisions by analyzing market trends and providing actionable insights?"
-            }
-        ],
+        content: COMMON_INTERVIEW_CONTENT,
         imageUrl: "/podcast-nft.svg",
         duration: "42:20",
         date: "2024-03-10"
