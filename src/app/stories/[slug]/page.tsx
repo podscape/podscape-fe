@@ -128,7 +128,7 @@ export default async function StoryPage({ params, searchParams }: Props) {
             <div className="max-w-4xl mx-auto">
                 <Link
                     href="/"
-                    className="inline-flex items-center text-[#0ff] hover:text-[#ff2d55] mb-8 transition-colors neon-text"
+                    className="inline-flex items-center text-[var(--secondary)] hover:text-[var(--primary)] mb-8 transition-colors neon-text"
                 >
                     <svg
                         className="w-4 h-4 mr-2"
@@ -143,7 +143,7 @@ export default async function StoryPage({ params, searchParams }: Props) {
                             d="M15 19l-7-7 7-7"
                         />
                     </svg>
-                    Back to Stories
+                    Back to Home
                 </Link>
 
                 <article className="bg-[rgba(13,8,32,0.8)] backdrop-blur-md rounded-2xl overflow-hidden shadow-xl border border-[rgba(255,255,255,0.1)] synth-container">
@@ -166,7 +166,7 @@ export default async function StoryPage({ params, searchParams }: Props) {
                             <span>{story.duration}</span>
                         </div>
 
-                        <h1 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#ff2d55] to-[#b829dd] synth-glitch">
+                        <h1 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] synth-glitch">
                             {story.title}
                         </h1>
 
@@ -183,7 +183,7 @@ export default async function StoryPage({ params, searchParams }: Props) {
                                     className="mb-6 px-6"
                                     data-segment={index}
                                 >
-                                    <div className="font-semibold text-[#0ff] mb-2 synth-speaker">
+                                    <div className="font-semibold text-[var(--secondary)] mb-2 synth-speaker">
                                         {segment.speaker}:
                                     </div>
                                     <p className="text-zinc-300">

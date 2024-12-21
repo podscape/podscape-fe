@@ -2,36 +2,112 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #0a0614;
-  --foreground: #e2e8f0;
-  --neon-pink: #ff2d55;
-  --neon-blue: #0ff;
-  --neon-purple: #b829dd;
+// Theme Variables
+$themes: (
+        cyberpunk: (
+                background: #0a0614,
+                foreground: #e2e8f0,
+                primary: #ff2d55,
+                secondary: #0ff,
+                accent: #b829dd,
+                gradient-start: #ff2d55,
+                gradient-end: #b829dd,
+                bg-gradient-1: rgba(24, 6, 60, 0.8),
+                bg-gradient-2: rgba(17, 6, 34, 0.9),
+                bg-gradient-3: rgba(10, 6, 20, 0.9)
+        ),
+        synthwave: (
+                background: #190033,
+                foreground: #e2e8f0,
+                primary: #ff2975,
+                secondary: #ffd319,
+                accent: #8c1eff,
+                gradient-start: #ff901f,
+                gradient-end: #f222ff,
+                bg-gradient-1: rgba(255, 41, 117, 0.15),
+                bg-gradient-2: rgba(140, 30, 255, 0.15),
+                bg-gradient-3: rgba(25, 0, 51, 0.95)
+        ),
+        neon: (
+                background: #000814,
+                foreground: #e2e8f0,
+                primary: #00ff9f,
+                secondary: #00b8ff,
+                accent: #bd00ff,
+                gradient-start: #00ff9f,
+                gradient-end: #d600ff,
+                bg-gradient-1: rgba(0, 184, 255, 0.15),
+                bg-gradient-2: rgba(0, 30, 255, 0.15),
+                bg-gradient-3: rgba(0, 8, 20, 0.95)
+        )
+);
+
+// Function to get theme value
+@function theme-value($key, $theme: cyberpunk) {
+  @return map-get(map-get($themes, $theme), $key);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0614;
-    --foreground: #e2e8f0;
+// Theme Mixins
+@mixin use-theme($theme: cyberpunk) {
+  --background: #{theme-value('background', $theme)};
+  --foreground: #{theme-value('foreground', $theme)};
+  --primary: #{theme-value('primary', $theme)};
+  --secondary: #{theme-value('secondary', $theme)};
+  --accent: #{theme-value('accent', $theme)};
+  --gradient-start: #{theme-value('gradient-start', $theme)};
+  --gradient-end: #{theme-value('gradient-end', $theme)};
+  --bg-gradient-1: #{theme-value('bg-gradient-1', $theme)};
+  --bg-gradient-2: #{theme-value('bg-gradient-2', $theme)};
+  --bg-gradient-3: #{theme-value('bg-gradient-3', $theme)};
+}
+
+// Root Theme Application
+:root {
+  @include use-theme('cyberpunk');
+  transition: all 0.3s ease;
+
+  &[data-theme='synthwave'] {
+    @include use-theme('synthwave');
   }
+
+  &[data-theme='neon'] {
+    @include use-theme('neon');
+  }
+}
+
+html {
+  min-height: 100%;
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
-  background-image:
-          radial-gradient(circle at 50% 50%, rgba(24, 6, 60, 0.8) 0%, transparent 100%),
-          linear-gradient(180deg, rgba(17, 6, 34, 0.9) 0%, rgba(10, 6, 20, 0.9) 100%);
+  min-height: 100%;
+  position: relative;
   font-family: Arial, Helvetica, sans-serif;
+  transition: all 0.3s ease;
+
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background);
+    background-image:
+            radial-gradient(circle at 50% 50%, var(--bg-gradient-1) 0%, transparent 100%),
+            linear-gradient(180deg, var(--bg-gradient-2) 0%, var(--bg-gradient-3) 100%);
+    z-index: -1;
+    transition: background 0.3s ease, background-image 0.3s ease;
+  }
 }
 
 /* Neon text effect */
 .neon-text {
   text-shadow:
-          0 0 5px rgba(255, 45, 85, 0.5),
-          0 0 10px rgba(255, 45, 85, 0.3),
-          0 0 15px rgba(255, 45, 85, 0.1);
+          0 0 5px rgba(var(--primary), 0.5),
+          0 0 10px rgba(var(--primary), 0.3),
+          0 0 15px rgba(var(--primary), 0.1);
 }
 
 /* Card hover effects */
@@ -40,40 +116,40 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(13, 8, 32, 0.8);
   backdrop-filter: blur(10px);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  &:hover::before {
+    transform: scaleX(1);
+  }
 }
 
-.cyberpunk-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--neon-pink), transparent);
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-.cyberpunk-card:hover::before {
-  transform: scaleX(1);
-}
-
-/* Existing wallet styles with cyberpunk theme */
+/* Wallet styles */
 .wallet-adapter-button {
-  /*background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink)) !important;*/
+  background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end)) !important;
   border-radius: 4px !important;
   height: 40px !important;
   padding: 0 1.5rem !important;
   font-size: 0.875rem !important;
   font-weight: 500 !important;
   transition: all 0.2s !important;
-  /*border: 1px solid rgba(255, 255, 255, 0.1) !important;*/
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.5) !important;
-}
 
-.wallet-adapter-button:not([disabled]):hover {
-  background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)) !important;
-  box-shadow: 0 0 15px rgba(184, 41, 221, 0.5) !important;
+  &:not([disabled]):hover {
+    background: linear-gradient(45deg, var(--accent), var(--primary)) !important;
+    box-shadow: 0 0 15px var(--accent) !important;
+  }
 }
 
 /* Modal styling */
@@ -83,102 +159,47 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-.dark .wallet-adapter-modal-wrapper {
-  background: rgba(13, 8, 32, 0.95) !important;
-}
-
 .wallet-adapter-modal-title {
   color: var(--foreground) !important;
 }
 
-.dark .wallet-adapter-modal-title {
-  color: var(--foreground) !important;
-}
-
-[data-timestamp] {
-  transition: all 0.3s ease;
-}
-
-[data-timestamp].playing {
-  background: rgba(255, 45, 85, 0.1);
-  border-left: 2px solid #ff2d55;
-  padding-left: 1rem;
-  margin-left: -1rem;
-  border-radius: 4px;
-}
-
-/* Add to your existing globals.css */
-
-.synth-glitch {
-  transition: transform 0.1s ease-out;
-}
-
-@keyframes glitch {
-  0% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(-2px, 2px);
-  }
-  40% {
-    transform: translate(-2px, -2px);
-  }
-  60% {
-    transform: translate(2px, 2px);
-  }
-  80% {
-    transform: translate(2px, -2px);
-  }
-  100% {
-    transform: translate(0);
-  }
-}
-
+/* Playing state styles */
 .playing {
   @apply bg-[rgba(255,45,85,0.1)] rounded-lg -mx-6 px-6;
 }
 
-/* Spinner Animations */
+/* Animations */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
 @keyframes neonSpin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes neonSpinReverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
 }
 
 @keyframes waveform {
-  0%, 100% {
-    transform: scaleY(0.3);
-  }
-  50% {
-    transform: scaleY(1);
-  }
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
 }
 
 @keyframes hexRotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes hexDash {
-  to {
-    stroke-dashoffset: 0;
-  }
+  to { stroke-dashoffset: 0; }
 }
 
 /* Tailwind Utilities */
@@ -208,7 +229,7 @@ body {
 
 /* Loading overlay */
 .loading-overlay {
-  @apply inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm
+  @apply inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm;
 }
 
 /* Spinner container */
@@ -216,15 +237,9 @@ body {
   @apply flex flex-col items-center gap-4;
 }
 
-/* Add this to your globals.css */
-.nextjs-toast-errors-parent {
-  display: none !important;
-}
-
-.nextjs-toast-errors-parent > div {
-  display: none !important;
-}
-
+/* Hide NextJS error toasts */
+.nextjs-toast-errors-parent,
+.nextjs-toast-errors-parent > div,
 nextjs-portal {
   display: none !important;
 }

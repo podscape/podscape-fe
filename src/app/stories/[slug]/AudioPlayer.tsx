@@ -133,7 +133,7 @@ export default function AudioPlayer({ content }: AudioPlayerProps) {
             <div className="flex items-center justify-between">
                 <button
                     onClick={togglePlayback}
-                    className="bg-gradient-to-r from-[#ff2d55] to-[#b829dd] hover:from-[#ff2d55] hover:to-[#ff2d55] text-white rounded-lg px-6 py-2 flex items-center gap-2 transition-all duration-300 shadow-lg hover:shadow-[#ff2d55]/20"
+                    className="bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] hover:from-[var(--primary)] hover:to-[var(--primary)] text-white rounded-lg px-6 py-2 flex items-center gap-2 transition-all duration-300 shadow-lg hover:shadow-[var(--primary)]/20"
                 >
                     {isPlaying ? (
                         <>
@@ -162,7 +162,7 @@ export default function AudioPlayer({ content }: AudioPlayerProps) {
 
             <div className="mt-4 h-1 bg-[rgba(255,255,255,0.1)] rounded-full overflow-hidden">
                 <div
-                    className="h-full bg-gradient-to-r from-[#ff2d55] to-[#b829dd] transition-all duration-300"
+                    className="h-full bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] transition-all duration-300"
                     style={{ width: `${getProgress()}%` }}
                 />
             </div>
