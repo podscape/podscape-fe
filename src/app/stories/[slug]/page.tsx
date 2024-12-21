@@ -69,15 +69,22 @@ const STORIES_DATA: Readonly<Record<string, Story>> = {
     }
 } as const;
 
+type Props = {
+    params: Promise<{
+        slug: string;
+    }>;
+    searchParams: { [key: string]: string | string[] | undefined };
+};
+
 export async function generateStaticParams() {
     return Object.keys(STORIES_DATA).map((slug) => ({
         slug,
     }));
 }
 
-export async function generateMetadata({ params }) {
-    const slug = params.slug as keyof typeof STORIES_DATA;
-    const story = STORIES_DATA[slug];
+export async function generateMetadata({ params }: Props) {
+    const resolvedParams = await params;
+    const story = STORIES_DATA[resolvedParams.slug as keyof typeof STORIES_DATA];
 
     if (!story) {
         return {
@@ -86,20 +93,24 @@ export async function generateMetadata({ params }) {
     }
 
     return {
-        title: story.title,
+        title: `${story.title} | Podscape AI`,
         description: story.description,
+        openGraph: {
+            title: story.title,
+            description: story.description,
+            images: [story.imageUrl],
+        },
     };
 }
 
-export default function StoryPage({ params }) {
-    const slug = params.slug as keyof typeof STORIES_DATA;
-    const story = STORIES_DATA[slug];
+export default async function StoryPage({ params, searchParams }: Props) {
+    const resolvedParams = await params;
+    const story = STORIES_DATA[resolvedParams.slug as keyof typeof STORIES_DATA];
 
     if (!story) {
         notFound();
     }
 
-    // Split text into words for highlighting
     const renderText = (text: string) => {
         const words = text.split(' ');
         return words.map((word, idx) => (
@@ -117,7 +128,7 @@ export default function StoryPage({ params }) {
             <div className="max-w-4xl mx-auto">
                 <Link
                     href="/"
-                    className="inline-flex items-center text-[#0ff] hover:text-[#ff2d55] mb-8 transition-colors"
+                    className="inline-flex items-center text-[#0ff] hover:text-[#ff2d55] mb-8 transition-colors neon-text"
                 >
                     <svg
                         className="w-4 h-4 mr-2"

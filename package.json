@@ -6,7 +6,8 @@
     "dev": "next dev -p 4000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cleanup": "rm -rf node_modules && npm cache clean --force && npm install"
   },
   "dependencies": {
     "@solana/wallet-adapter-base": "^0.9.23",
@@ -16,7 +17,8 @@
     "@solana/web3.js": "^1.98.0",
     "next": "15.1.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "sass": "^1.83.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
