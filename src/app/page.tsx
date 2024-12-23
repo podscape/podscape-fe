@@ -7,21 +7,28 @@ const PODCAST_STORIES = [
         title: "The Future of Web3",
         description: "Exploring the decentralized future and how blockchain is reshaping our digital interactions.",
         slug: "future-of-web3",
-        imageUrl: "/podcast-web3.svg"
+        imageUrl: "/podcast-web3.svg",
+        audioSrc: "/audio/podcast_schizo.mp3",  // Place your audio file in the public directory
+        vttSrc: "/audio/future-of-web3.vtt",
+
     },
     {
         id: 2,
         title: "Solana Development Journey",
         description: "A deep dive into building on Solana and the challenges faced by modern blockchain developers.",
         slug: "solana-development",
-        imageUrl: "/podcast-solana.svg"
+        imageUrl: "/podcast-solana.svg",
+        audioSrc: "/audio/podcast_schizo.mp3",  // Place your audio file in the public directory
+        vttSrc: "/audio/future-of-web3.vtt",
     },
     {
         id: 3,
         title: "NFT Revolution",
         description: "Understanding the impact of NFTs on digital ownership and the creator economy.",
         slug: "nft-revolution",
-        imageUrl: "/podcast-nft.svg"
+        imageUrl: "/podcast-nft.svg",
+        audioSrc: "/audio/podcast_schizo.mp3",  // Place your audio file in the public directory
+        vttSrc: "/audio/future-of-web3.vtt",
     }
 ] as const;
 
