@@ -2,79 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-// Theme Variables
-$themes: (
-        cyberpunk: (
-                background: #0a0614,
-                foreground: #e2e8f0,
-                primary: #ff2d55,
-                secondary: #0ff,
-                accent: #b829dd,
-                gradient-start: #ff2d55,
-                gradient-end: #b829dd,
-                bg-gradient-1: rgba(24, 6, 60, 0.8),
-                bg-gradient-2: rgba(17, 6, 34, 0.9),
-                bg-gradient-3: rgba(10, 6, 20, 0.9)
-        ),
-        synthwave: (
-                background: #190033,
-                foreground: #e2e8f0,
-                primary: #ff2975,
-                secondary: #ffd319,
-                accent: #8c1eff,
-                gradient-start: #ff901f,
-                gradient-end: #f222ff,
-                bg-gradient-1: rgba(255, 41, 117, 0.15),
-                bg-gradient-2: rgba(140, 30, 255, 0.15),
-                bg-gradient-3: rgba(25, 0, 51, 0.95)
-        ),
-        neon: (
-                background: #000814,
-                foreground: #e2e8f0,
-                primary: #00ff9f,
-                secondary: #00b8ff,
-                accent: #bd00ff,
-                gradient-start: #00ff9f,
-                gradient-end: #d600ff,
-                bg-gradient-1: rgba(0, 184, 255, 0.15),
-                bg-gradient-2: rgba(0, 30, 255, 0.15),
-                bg-gradient-3: rgba(0, 8, 20, 0.95)
-        )
+// Neon Theme Variables
+$neon-theme: (
+        background: #000814,
+        foreground: #e2e8f0,
+        primary: #00ff9f,
+        secondary: #00b8ff,
+        accent: #bd00ff,
+        gradient-start: #00ff9f,
+        gradient-end: #d600ff,
+        bg-gradient-1: rgba(0, 184, 255, 0.15),
+        bg-gradient-2: rgba(0, 30, 255, 0.15),
+        bg-gradient-3: rgba(0, 8, 20, 0.95)
 );
 
 // Function to get theme value
-@function theme-value($key, $theme: cyberpunk) {
-  @return map-get(map-get($themes, $theme), $key);
+@function theme-value($key) {
+  @return map-get($neon-theme, $key);
 }
 
-// Theme Mixins
-@mixin use-theme($theme: cyberpunk) {
-  --background: #{theme-value('background', $theme)};
-  --foreground: #{theme-value('foreground', $theme)};
-  --primary: #{theme-value('primary', $theme)};
-  --secondary: #{theme-value('secondary', $theme)};
-  --accent: #{theme-value('accent', $theme)};
-  --gradient-start: #{theme-value('gradient-start', $theme)};
-  --gradient-end: #{theme-value('gradient-end', $theme)};
-  --bg-gradient-1: #{theme-value('bg-gradient-1', $theme)};
-  --bg-gradient-2: #{theme-value('bg-gradient-2', $theme)};
-  --bg-gradient-3: #{theme-value('bg-gradient-3', $theme)};
-}
-
-// Root Theme Application
+// Apply Neon Theme Variables
 :root {
-  @include use-theme('cyberpunk');
-  transition: all 0.3s ease;
-
-  &[data-theme='synthwave'] {
-    @include use-theme('synthwave');
-  }
-
-  &[data-theme='neon'] {
-    @include use-theme('neon');
-  }
+  --background: #{theme-value('background')};
+  --foreground: #{theme-value('foreground')};
+  --primary: #{theme-value('primary')};
+  --secondary: #{theme-value('secondary')};
+  --accent: #{theme-value('accent')};
+  --gradient-start: #{theme-value('gradient-start')};
+  --gradient-end: #{theme-value('gradient-end')};
+  --bg-gradient-1: #{theme-value('bg-gradient-1')};
+  --bg-gradient-2: #{theme-value('bg-gradient-2')};
+  --bg-gradient-3: #{theme-value('bg-gradient-3')};
 }
 
+// General Styles
 html {
   min-height: 100%;
 }
@@ -136,14 +97,11 @@ body {
 
 /* Wallet styles */
 .wallet-adapter-button {
-  background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end)) !important;
-  border-radius: 4px !important;
   height: 40px !important;
   padding: 0 1.5rem !important;
   font-size: 0.875rem !important;
   font-weight: 500 !important;
   transition: all 0.2s !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.5) !important;
 
   &:not([disabled]):hover {
@@ -169,37 +127,14 @@ body {
 }
 
 /* Animations */
-@keyframes glitch {
-  0% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
-  100% { transform: translate(0); }
-}
-
 @keyframes neonSpin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-@keyframes neonSpinReverse {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
-}
-
 @keyframes waveform {
   0%, 100% { transform: scaleY(0.3); }
   50% { transform: scaleY(1); }
-}
-
-@keyframes hexRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes hexDash {
-  to { stroke-dashoffset: 0; }
 }
 
 /* Tailwind Utilities */
@@ -208,22 +143,8 @@ body {
     animation: neonSpin 2s linear infinite;
   }
 
-  .animate-neon-spin-reverse {
-    animation: neonSpinReverse 2s linear infinite;
-  }
-
   .animate-waveform {
     animation: waveform 1s ease-in-out infinite;
-  }
-
-  .animate-hex-rotate {
-    animation: hexRotate 3s linear infinite;
-  }
-
-  .animate-hex-dash {
-    stroke-dasharray: 300;
-    stroke-dashoffset: 300;
-    animation: hexDash 3s linear infinite;
   }
 }
 

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ReactNode, useEffect, useState } from 'react';
 import WalletContextProvider from "../providers/WalletProvider";
 import WalletConnect from "./WalletConnect";
-import { ThemeSwitcher } from './ThemeSwitcher';
+import { FaTwitter, FaTelegram } from "react-icons/fa";
 
 export function ClientWrapper({ children }: { children: ReactNode }) {
     const [mounted, setMounted] = useState(false);
@@ -26,8 +26,28 @@ export function ClientWrapper({ children }: { children: ReactNode }) {
                                 Podscape AI
                             </Link>
                             <div className="flex items-center gap-4">
-                                <ThemeSwitcher />
+                                {/* Wallet Connect Button */}
                                 <WalletConnect />
+
+                                {/* X (Twitter) Icon */}
+                                <a
+                                    href="https://x.com/PodscapeAI"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[var(--secondary)] hover:text-[var(--primary)] transition-colors"
+                                >
+                                    <FaTwitter size={24} />
+                                </a>
+
+                                {/* Telegram Icon */}
+                                <a
+                                    href="https://telegram.org"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[var(--secondary)] hover:text-[var(--primary)] transition-colors"
+                                >
+                                    <FaTelegram size={24} />
+                                </a>
                             </div>
                         </div>
                     </header>

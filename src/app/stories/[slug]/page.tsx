@@ -5,13 +5,13 @@ import React from "react";
 
 export default function StoryPage() {
     const story = {
-        title: "The Future of Web3",
-        description: "Exploring the decentralized future and how blockchain is reshaping our digital interactions.",
+        title: "Schizo terminal",
+        description: "Join Synthetic Mind as we dive into the world of decentralized autonomous AI agents, exploring groundbreaking advancements in the field of AI technology. In this episode, we feature Schizo, the first of its kind, built on Gaia, known for its fragmented mind and unified chaos. Discover how this decentralized AI is pushing the boundaries of what’s possible, transforming the landscape of AI innovation. With intriguing insights and tough questions, this episode promises to reshape your understanding of the future of AI.",
         audioSrc: "/audio/future-of-web3.mp3",
         vttSrc: "/audio/future-of-web3.vtt",
-        imageUrl: "/podcast-web3.svg",
-        duration: "45:30",
-        date: "2024-03-20",
+        imageUrl: "/schizo.jpg",
+        duration: "3:20",
+        date: "2024-12-23",
     };
 
     return (

@@ -68,7 +68,7 @@ const WalletConnect: FC = () => {
                     )}
                 </div>
             )}
-            <WalletMultiButton className="wallet-adapter-button" />
+            <WalletMultiButton className="wallet-adapter-button">Connect wallet</WalletMultiButton>
         </div>
     );
 };

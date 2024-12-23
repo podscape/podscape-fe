@@ -52,7 +52,10 @@ const tiemposText = localFont({
 
 export const metadata: Metadata = {
     title: "Podscape AI",
-    description: "The future is now",
+    description: "Tell me all about you",
+    icons: {
+        icon: "/favicon.ico",
+    },
 };
 
 export default function RootLayout({
