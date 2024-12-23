@@ -15,6 +15,6 @@ export const TypedText = () => {
     }, []);
 
     return (
-        <div className="text-5xl font-bold text-white">{text}</div>
+        <div className="text-5xl font-bold text-white">{`"${text}"`}</div>
     );
 };

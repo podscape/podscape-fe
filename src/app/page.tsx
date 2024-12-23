@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { TypedText } from './components/TypedText';
-import { AudioWave } from './components/AudioWave';
+import {TypedText} from './components/TypedText';
+import {AudioWave} from './components/AudioWave';
 
 const PODCAST_STORIES = [
     {
@@ -47,15 +47,16 @@ export default function Home() {
             />
             <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 py-16">
                 <div className="flex items-center justify-center p-8">
-                    <TypedText />
+                    <TypedText/>
                 </div>
                 <div className="flex items-center justify-center p-8">
-                    <AudioWave />
+                    <AudioWave/>
                 </div>
             </div>
             <div className="text-center py-16">
                 <h1 className="text-5xl font-bold relative neon-text tracking-wider mb-4">
-                    <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)]">
+                    <span
+                        className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)]">
                         DIGITAL MINDS, HUMAN STORIES
                     </span>
                 </h1>
@@ -66,7 +67,8 @@ export default function Home() {
                 </p>
             </div>
             <h1 className="text-5xl font-bold py-16 relative neon-text tracking-wider">
-                <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] border-b-4 border-[var(--primary)]">
+                <span
+                    className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] border-b-4 border-[var(--primary)]">
                     INTERVIEWS
                 </span>
             </h1>
@@ -79,14 +81,12 @@ export default function Home() {
                         }`}
                     >
                         {story.disabled ? (
-                            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-xl font-bold z-10">
+                            <div
+                                className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-xl font-bold z-10">
                                 Coming Soon
                             </div>
                         ) : (
-                            <Link
-                                href={`/stories/${story.slug}`}
-                                className="absolute inset-0 z-10"
-                            />
+                            <Link href={`/stories/${story.slug}`} className="absolute inset-0 z-10"/>
                         )}
                         <div className="aspect-[4/3] relative overflow-hidden">
                             <Image
@@ -101,6 +101,7 @@ export default function Home() {
                                 className="absolute inset-0 bg-gradient-to-t from-[rgba(13,8,32,0.9)] to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-300"
                             />
                         </div>
+                        <Link href={`/stories/${story.slug}`} className="absolute inset-0 z-10"/>
                         <div className="p-6 relative z-10">
                             <h2
                                 className={`text-xl font-semibold mb-2 text-white ${
@@ -109,28 +110,36 @@ export default function Home() {
                                         : 'group-hover:text-[var(--primary)] transition-colors duration-300'
                                 }`}
                             >
-                                {story.title}
+                                <Link href={`/stories/${story.slug}`}>
+                                    {story.title}
+                                </Link>
                             </h2>
                             <p className={`text-sm text-zinc-300 line-clamp-2 mb-4 ${story.disabled && 'text-opacity-50'}`}>
-                                {story.description}
+                                <Link href={`/stories/${story.slug}`}>
+                                    {story.description}
+                                </Link>
                             </p>
-                            <div
-                                className="mt-4 flex items-center text-[var(--secondary)] text-sm font-medium group-hover:text-[var(--primary)] transition-colors duration-300">
-                                Listen to story
-                                <svg
-                                    className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 5l7 7-7 7"
-                                    />
-                                </svg>
-                            </div>
+                            {!story.disabled && (
+                                <Link href={`/stories/${story.slug}`}>
+                                    <div
+                                        className="mt-4 flex items-center text-[var(--secondary)] text-sm font-medium group-hover:text-[var(--primary)] transition-colors duration-300">
+                                        Listen to story
+                                        <svg
+                                            className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M9 5l7 7-7 7"
+                                            />
+                                        </svg>
+                                    </div>
+                                </Link>
+                            )}
                         </div>
                     </div>
                 ))}
