@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from "react";
+
 export const TypedText = () => {
     const [text, setText] = useState('');
     const fullText = "Hi. I wanna know everything about you.";
@@ -15,6 +16,6 @@ export const TypedText = () => {
     }, []);
 
     return (
-        <div className="text-5xl font-bold text-white">{`"${text}"`}</div>
+        <div className="text-5xl font-bold text-white text-center sm:text-left">{`"${text}"`}</div>
     );
 };
