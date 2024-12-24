@@ -38,11 +38,11 @@ const AudioWave = ({ isPlaying }) => {
                 />
             ))}
             <style jsx>{`
-        @keyframes wave {
-          0%, 100% { height: 4px; }
-          50% { height: 16px; }
-        }
-      `}</style>
+                @keyframes wave {
+                    0%, 100% { height: 4px; }
+                    50% { height: 16px; }
+                }
+            `}</style>
         </div>
     );
 };
@@ -289,10 +289,23 @@ export default function AudioPlayer({ audioSrc, vttSrc }: AudioPlayerProps) {
                 </div>
             </div>
 
-            <div className="h-1 bg-[rgba(255,255,255,0.1)] rounded-full overflow-hidden">
-                <div
-                    className="h-full bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] transition-all duration-300"
-                    style={{ width: `${getProgress()}%` }}
+            <div className="relative flex items-center">
+                <input
+                    type="range"
+                    min="0"
+                    max={duration}
+                    value={currentTime}
+                    onChange={(e) => {
+                        const time = parseFloat(e.target.value);
+                        if (audioRef.current) {
+                            audioRef.current.currentTime = time;
+                            setCurrentTime(time);
+                        }
+                    }}
+                    className="w-full h-1 accent-[var(--primary)] bg-[rgba(255,255,255,0.1)] rounded-full appearance-none cursor-pointer"
+                    style={{
+                        background: `linear-gradient(to right, var(--gradient-start) 0%, var(--gradient-end) ${getProgress()}%, rgba(255,255,255,0.1) ${getProgress()}%, rgba(255,255,255,0.1) 100%)`
+                    }}
                 />
             </div>
 
