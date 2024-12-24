@@ -24,6 +24,29 @@ interface AudioPlayerProps {
     vttSrc: string;
 }
 
+const AudioWave = ({ isPlaying }) => {
+    return (
+        <div className="flex items-center gap-1">
+            {[...Array(12)].map((_, i) => (
+                <div
+                    key={i}
+                    className={`w-0.5 bg-gradient-to-t from-[var(--gradient-start)] to-[var(--gradient-end)] rounded-full opacity-50 transition-all duration-300`}
+                    style={{
+                        animation: isPlaying ? `wave 1s ease-in-out infinite ${i * 0.05}s` : 'none',
+                        height: isPlaying ? '16px' : '4px'
+                    }}
+                />
+            ))}
+            <style jsx>{`
+        @keyframes wave {
+          0%, 100% { height: 4px; }
+          50% { height: 16px; }
+        }
+      `}</style>
+        </div>
+    );
+};
+
 export default function AudioPlayer({ audioSrc, vttSrc }: AudioPlayerProps) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -35,7 +58,6 @@ export default function AudioPlayer({ audioSrc, vttSrc }: AudioPlayerProps) {
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const transcriptRef = useRef<HTMLDivElement>(null);
 
-    // Group cues by speaker
     const groupedCues = useMemo(() => {
         const groups: GroupedCue[] = [];
         let currentGroup: GroupedCue | null = null;
@@ -59,25 +81,19 @@ export default function AudioPlayer({ audioSrc, vttSrc }: AudioPlayerProps) {
         return groups;
     }, [cues]);
 
-    // Load and parse VTT file
     useEffect(() => {
         const fetchVTT = async () => {
             try {
-                console.log('Attempting to fetch VTT from:', vttSrc);
                 const response = await fetch(vttSrc);
-                console.log('Response status:', response.status);
                 if (!response.ok) {
-                    console.error('Response not OK:', response.status, response.statusText);
                     throw new Error(`Failed to load VTT file: ${response.status} ${response.statusText}`);
                 }
                 const text = await response.text();
-                console.log('VTT content loaded, first 100 chars:', text.substring(0, 100));
                 const parsedCues = parseVTT(text);
                 setCues(parsedCues);
                 setIsLoading(false);
             } catch (error) {
-                console.error('Detailed error loading VTT file:', error);
-                console.error('VTT source path:', vttSrc);
+                console.error('Error loading VTT file:', error);
                 setIsLoading(false);
             }
         };
@@ -85,13 +101,11 @@ export default function AudioPlayer({ audioSrc, vttSrc }: AudioPlayerProps) {
         fetchVTT();
     }, [vttSrc]);
 
-    // Parse VTT content
     const parseVTT = (vttContent: string): VTTCue[] => {
         const lines = vttContent.split('\n');
         const cues: VTTCue[] = [];
         let currentCue: Partial<VTTCue> = {};
 
-        // Skip the WEBVTT header if present
         let startIndex = lines.findIndex(line => line.trim() === 'WEBVTT') + 1;
         if (startIndex === 0) startIndex = 0;
 
@@ -99,7 +113,6 @@ export default function AudioPlayer({ audioSrc, vttSrc }: AudioPlayerProps) {
             const line = lines[i].trim();
 
             if (line.includes('-->')) {
-                // Parse timestamp line
                 const [startStr, endStr] = line.split('-->').map(t => t.trim());
                 const [startHours, startMinutes, startSeconds] = startStr.split(':').map(Number);
                 const [endHours, endMinutes, endSeconds] = endStr.split(':').map(Number);
@@ -269,6 +282,7 @@ export default function AudioPlayer({ audioSrc, vttSrc }: AudioPlayerProps) {
                 </button>
 
                 <div className="flex items-center gap-4">
+                    <AudioWave isPlaying={isPlaying} />
                     <span className="text-zinc-400">
                         {formatTime(currentTime)} / {formatTime(duration)}
                     </span>
