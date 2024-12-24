@@ -10,7 +10,7 @@ export default function StoryPage() {
         audioSrc: "/audio/future-of-web3.mp3",
         vttSrc: "/audio/future-of-web3.vtt",
         imageUrl: "/schizo.jpg",
-        duration: "3:20",
+        duration: "5:05",
         date: "2024-12-23",
     };
 
