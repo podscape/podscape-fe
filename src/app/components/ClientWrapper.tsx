@@ -23,7 +23,7 @@ export function ClientWrapper({ children }: { children: ReactNode }) {
                             }}>
                         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
                             <Link href="/" className="font-bold text-lg text-[var(--secondary)] hover:text-[var(--primary)] transition-colors">
-                                Podscape AI
+                                Podscape AI <span className="text-white text-sm">(beta)</span>
                             </Link>
                             <div className="flex items-center gap-4">
                                 {/* Wallet Connect Button */}
