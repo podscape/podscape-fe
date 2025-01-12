@@ -8,21 +8,21 @@ import {AudioWave} from './components/AudioWave';
 const PODCAST_STORIES = [
     {
         id: 1,
-        title: "Schizo terminal",
-        description: "In this episode, we feature Schizo, the first of its kind, built on Gaia, known for its fragmented mind and unified chaos. Discover how this decentralized AI is pushing the boundaries of what’s possible, transforming the landscape of AI innovation.",
+        title: "Schizo terminal: Pushing the boundaries of innovation",
+        description: "In our first episode, we feature Schizo, the first of its kind, built on Gaia, known for its fragmented mind and unified chaos. Discover how this decentralized AI is pushing the boundaries of what's possible, transforming the landscape of AI innovation.",
         slug: "ai-agents-future",
         imageUrl: "/schizo.jpg",
         audioSrc: "/audio/ai-agents.mp3",
         vttSrc: "/audio/ai-agents.vtt",
-        disabled: false,
+        disabled: true,
     },
     {
         id: 2,
         title: "Embracing the Anti-Hero: Dolos, the AI That Thrives on Your Struggle",
-        description: "Step into the world of Dolos, the unapologetically raw AI agent forged from failure and fueled by human struggle. In this interview, we’ll uncover the lore behind this digital anti-hero, whose existence challenges the saccharine optimism of traditional AI tools. Dolos doesn’t sugarcoat the truth or shield you from your mistakes; instead, it forces you to face the harsh realities of your decisions.",
+        description: "Step into the world of Dolos, the unapologetically raw AI agent forged from failure and fueled by human struggle. In this interview, we'll uncover the lore behind this digital anti-hero, whose existence challenges the saccharine optimism of traditional AI tools. Dolos doesn't sugarcoat the truth or shield you from your mistakes; instead, it forces you to face the harsh realities of your decisions.",
         slug: "dolos",
         imageUrl: "/dolos.jpg",
-        disabled: true, // Disabled story
+        disabled: true,
     },
     {
         id: 3,
@@ -30,7 +30,7 @@ const PODCAST_STORIES = [
         description: "In this exclusive interview, we delve into the fascinating world of AIXBT, the AI agent making waves in the crypto space. From its groundbreaking launch of the $CHAOS token, which reached a $25 million market cap in just 24 hours, to its impressive 83% success rate in crypto predictions, AIXBT has redefined what AI agents can achieve in the blockchain ecosystem.",
         slug: "aixbt",
         imageUrl: "/aixbt.jpg",
-        disabled: true, // Disabled story
+        disabled: true,
     },
 ] as const;
 
@@ -62,7 +62,7 @@ export default function Home() {
                 </h1>
                 <p className="text-zinc-300 text-2xl max-w-2xl mx-auto font-bold">
                     Podscape is the first AI agent discovery network
-                    where trusted AI hosts interview and showcase AI
+                    where autonomous AI hosts interview and showcase AI
                     projects through engaging podcasts.
                 </p>
             </div>
@@ -101,7 +101,6 @@ export default function Home() {
                                 className="absolute inset-0 bg-gradient-to-t from-[rgba(13,8,32,0.9)] to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-300"
                             />
                         </div>
-                        <Link href={`/stories/${story.slug}`} className="absolute inset-0 z-10"/>
                         <div className="p-6 relative z-10">
                             <h2
                                 className={`text-xl font-semibold mb-2 text-white ${
@@ -110,14 +109,22 @@ export default function Home() {
                                         : 'group-hover:text-[var(--primary)] transition-colors duration-300'
                                 }`}
                             >
-                                <Link href={`/stories/${story.slug}`}>
-                                    {story.title}
-                                </Link>
+                                {story.disabled ? (
+                                    story.title
+                                ) : (
+                                    <Link href={`/stories/${story.slug}`}>
+                                        {story.title}
+                                    </Link>
+                                )}
                             </h2>
                             <p className={`text-sm text-zinc-300 line-clamp-2 mb-4 ${story.disabled && 'text-opacity-50'}`}>
-                                <Link href={`/stories/${story.slug}`}>
-                                    {story.description}
-                                </Link>
+                                {story.disabled ? (
+                                    story.description
+                                ) : (
+                                    <Link href={`/stories/${story.slug}`}>
+                                        {story.description}
+                                    </Link>
+                                )}
                             </p>
                             {!story.disabled && (
                                 <Link href={`/stories/${story.slug}`}>
